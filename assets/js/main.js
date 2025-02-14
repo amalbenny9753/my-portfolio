@@ -223,35 +223,67 @@
 
 /*----------------------------------------------------form-------------------------------------------------------------------*/ 
 
-/*document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("contact-form");
-  const loading = document.getElementById("loading");
-  const errorMessage = document.getElementById("error-message");
-  const sentMessage = document.getElementById("sent-message");
+    let nameInput = document.getElementById("name");
+    let nameError = document.getElementById("nameError");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent default form submission
+    let emailInput = document.getElementById("email");
+    let emailError = document.getElementById("emailError");
+    let emailCheck = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-    // Show loading animation
-    loading.style.display = "block";
-    errorMessage.style.display = "none";
-    sentMessage.style.display = "none";
+    let subjectInput = document.getElementById("subject");
+    let subjectError = document.getElementById("subjectError");
 
-    // Simulate form submission (Replace with actual AJAX request)
-    setTimeout(() => {
-      loading.style.display = "none";
+    let messageInput = document.getElementById("message");
+    let messageError = document.getElementById("messageError");
 
-      // Simulating a successful response
-      const success = Math.random() > 0.2; // 80% chance of success
+    let form = document.getElementById("submit-form");
 
-      if (success) {
-        sentMessage.style.display = "block";
-        form.reset();
-      } else {
-        errorMessage.style.display = "block";
-        errorMessage.innerText = "Failed to send message. Please try again.";
-      }
-    }, 2000);
-  });
-});
-*/
+    form.addEventListener("submit", function (event) {
+        let isValid = true; // Flag to check if form is valid
+
+        if (nameInput.value.trim() === "") {
+            nameError.style.visibility = "visible";
+            isValid = false;
+        }
+
+        if (!emailInput.value.match(emailCheck)) {
+            emailError.style.visibility = "visible";
+            isValid = false;
+        }
+
+        if (subjectInput.value.trim() === "") {
+            subjectError.style.visibility = "visible";
+            isValid = false;
+        } 
+
+        if (messageInput.value.trim() === "") {
+            messageError.style.visibility = "visible";
+            isValid = false;
+        } 
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if any field is invalid
+        } else {
+            setTimeout(() => {
+                form.reset(); // Reset form fields after successful submission
+            });
+        }
+    });
+
+    // Event listeners to hide errors when user types
+    nameInput.addEventListener("input", function () {
+        nameError.style.visibility = "hidden";
+    });
+
+    emailInput.addEventListener("input", function () {
+        emailError.style.visibility = "hidden";
+    });
+
+    subjectInput.addEventListener("input", function () {
+        subjectError.style.visibility = "hidden";
+    });
+
+    messageInput.addEventListener("input", function () {
+        messageError.style.visibility = "hidden";
+    });
+
